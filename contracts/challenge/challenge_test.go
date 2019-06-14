@@ -27,7 +27,7 @@ func TestDeployChallenge(t *testing.T) {
 		},
 	}
 
-	gasLimit := uint64(323167)
+	gasLimit := uint64(250000)
 
 	fakeClient := backends.NewSimulatedBackend(genesisAlloc, gasLimit)
 
