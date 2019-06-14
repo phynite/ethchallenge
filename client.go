@@ -76,7 +76,7 @@ func main() {
 	/******************************
 	 * Calling contract functions *
 	 ******************************/
-	txSetA, err := instance.SetA(&bind.TransactOpts{
+	tx, err := instance.SetA(&bind.TransactOpts{
 		From:   auth.From,
 		Signer: auth.Signer,
 		Value:  nil,
@@ -84,26 +84,26 @@ func main() {
 
 	fakeClient.Commit()
 
-	receiptA, err := fakeClient.TransactionReceipt(context.Background(), txSetA.Hash())
+	receipt, err := fakeClient.TransactionReceipt(context.Background(), tx.Hash())
 	if err != nil {
 		log.Fatal(err)
 	}
-	if receiptA == nil {
+	if receipt == nil {
 		log.Fatal("receiptA is nil. Forgot to commit?")
 	}
 
-	if err = ipfsStore(mgr, ch, receiptA); err != nil {
+	if err = ipfsStore(mgr, ch, receipt); err != nil {
 		log.Fatal(err)
 	}
 
-	txGetA, err := instance.GetA(nil)
+	value, err := instance.GetA(nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Printf("address value: 0x%x\n", txGetA)
+	log.Printf("address value: 0x%x\n", value)
 
-	txSetB, err := instance.SetB(&bind.TransactOpts{
+	tx, err = instance.SetB(&bind.TransactOpts{
 		From:   auth.From,
 		Signer: auth.Signer,
 		Value:  nil,
@@ -115,15 +115,15 @@ func main() {
 
 	fakeClient.Commit()
 
-	receiptB, err := fakeClient.TransactionReceipt(context.Background(), txSetB.Hash())
+	receipt, err = fakeClient.TransactionReceipt(context.Background(), tx.Hash())
 	if err != nil {
 		log.Fatal(err)
 	}
-	if receiptB == nil {
+	if receipt == nil {
 		log.Fatal("receiptB is nil. Forgot to commit?")
 	}
 
-	if err = ipfsStore(mgr, ch, receiptB); err != nil {
+	if err = ipfsStore(mgr, ch, receipt); err != nil {
 		log.Fatal(err)
 	}
 
